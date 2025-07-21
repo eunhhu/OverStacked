@@ -1,0 +1,16 @@
+{
+  "name": "overstacked",
+  "type": "module",
+  "private": true,
+  "workspaces": ["packages/shared", "packages/be/*", "packages/fe/*", "apps/*"],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "install:fe": "bun i --filter=\"!packages/be/*\" --filter=\"!apps/be\"",
+    "install:be": "bun i --filter=\"!packages/fe/*\" --filter=\"!apps/fe\""
+  }
+}
