@@ -12,5 +12,8 @@
   "scripts": {
     "install:fe": "bun i --filter=\"!packages/be/*\" --filter=\"!apps/be\"",
     "install:be": "bun i --filter=\"!packages/fe/*\" --filter=\"!apps/fe\""
+  },
+  "dependencies": {
+    "@elysiajs/cookie": "^0.8.0"
   }
 }
