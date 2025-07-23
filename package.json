@@ -2,7 +2,7 @@
   "name": "overstacked",
   "type": "module",
   "private": true,
-  "workspaces": ["packages/shared", "packages/be/*", "packages/fe/*", "apps/*"],
+  "workspaces": ["packages/shared", "packages/*", "apps/*"],
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -10,10 +10,7 @@
     "typescript": "^5"
   },
   "scripts": {
-    "install:fe": "bun i --filter=\"!packages/be/*\" --filter=\"!apps/be\"",
-    "install:be": "bun i --filter=\"!packages/fe/*\" --filter=\"!apps/fe\""
-  },
-  "dependencies": {
-    "@elysiajs/cookie": "^0.8.0"
+    "install:fe": "bun i --filter=\"!apps/be\"",
+    "install:be": "bun i --filter=\"!apps/fe\""
   }
 }

@@ -23,12 +23,7 @@ const app = new Elysia()
   .use(swagger({
     path: "/swagger"
   }))
-  .use(cookie({
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7
-  }))
+  .use(cookie())
   // Routes
   .get("/", ({redirect}) => redirect("/health"))
   .get("/health", () => "OK")
