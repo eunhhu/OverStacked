@@ -4,6 +4,7 @@ import cors from "@elysiajs/cors";
 import { PrismaClient } from "@prisma/client";
 import cookie from "@elysiajs/cookie";
 import { authPlugin, authRoutes } from "@overstacked/auth";
+import { Api } from "@overstacked/shared";
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,19 @@ const app = new Elysia()
     credentials: true,
   }))
   .use(swagger({
-    path: "/swagger"
+    path: "/swagger",
+    documentation: {
+      info: {
+        title: "OverStacked Documentation",
+        version: "1.0.0",
+      },
+      servers: [
+        {
+          url: `http://localhost:${PORT}`,
+          description: "Local development server",
+        },
+      ],
+    },
   }))
   .use(cookie())
   .use(authPlugin)
@@ -34,9 +47,9 @@ const app = new Elysia()
   .onError(({ error, set }) => {
     console.error(error);
     set.status = 500;
-    return "Internal Server Error";
+    return Api.internalServerError(error);
   })
   // Start server
-  .listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));
+  .listen(PORT);
 
 export default app;

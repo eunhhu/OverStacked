@@ -8,13 +8,13 @@ export class Api {
       success: true
     }
   }
-  static error<T>(code: number = 400, message: string = "Something went wrong", details?: T): ApiResponseType<T> {
+  static error<T>(status: number = 400, code: string = "BAD_REQUEST", details?: T): ApiResponseType<T> {
     return {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
+        status,
         code,
-        message,
         details
       }
     }
@@ -24,8 +24,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 400,
-        message: "Bad Request",
+        status: 400,
+        code: "BAD_REQUEST",
         details
       }
     }
@@ -35,8 +35,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 401,
-        message: "Unauthorized",
+        status: 401,
+        code: "UNAUTHORIZED",
         details
       }
     }
@@ -46,8 +46,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 403,
-        message: "Forbidden",
+        status: 403,
+        code: "FORBIDDEN",
         details
       }
     }
@@ -57,8 +57,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 404,
-        message: "Not Found",
+        status: 404,
+        code: "NOT_FOUND",
         details
       }
     }
@@ -68,8 +68,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 409,
-        message: "Conflict",
+        status: 409,
+        code: "CONFLICT",
         details
       }
     }
@@ -79,8 +79,8 @@ export class Api {
       timestamp: new Date().toISOString(),
       success: false,
       error: {
-        code: 500,
-        message: "Internal Server Error",
+        status: 500,
+        code: "INTERNAL_SERVER_ERROR",
         details
       }
     }

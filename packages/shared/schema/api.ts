@@ -5,8 +5,8 @@ export const ApiResponse = (dataType?: TSchema) => Type.Object({
     timestamp: Type.String({ format: "date-time" }),
     success: Type.Boolean(),
     error: Type.Optional(Type.Object({
-        code: Type.Integer(),
-        message: Type.String(),
+        status: Type.Integer(),
+        code: Type.String(),
         details: Type.Optional(Type.Any()),
     }))
 })
