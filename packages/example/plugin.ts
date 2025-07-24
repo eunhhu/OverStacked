@@ -10,7 +10,7 @@ export const examplePlugin = ({
 }: ExamplePluginOptions) => new Elysia({
     prefix
 })
-    .decorate("exampleService", new ExampleService())
-    .onBeforeHandle(({ exampleService }) => {
-        console.log(exampleService)
-    })
+.decorate("exampleService", new ExampleService())
+.onBeforeHandle(({ exampleService }) => {
+    console.log(exampleService)
+})

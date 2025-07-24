@@ -3,6 +3,7 @@ import { swagger } from "@elysiajs/swagger";
 import cors from "@elysiajs/cors";
 import { PrismaClient } from "@prisma/client";
 import cookie from "@elysiajs/cookie";
+import { authPlugin, authRoutes } from "@overstacked/auth";
 
 const prisma = new PrismaClient();
 
@@ -24,9 +25,11 @@ const app = new Elysia()
     path: "/swagger"
   }))
   .use(cookie())
+  .use(authPlugin)
   // Routes
   .get("/", ({redirect}) => redirect("/health"))
   .get("/health", () => "OK")
+  .group("/auth", (app) => authRoutes(app as any, { prisma }))
   // Error handling
   .onError(({ error, set }) => {
     console.error(error);
