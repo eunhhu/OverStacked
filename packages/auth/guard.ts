@@ -1,4 +1,4 @@
-import { Api } from "@overstacked/shared/util/api"
+import { Api } from "@overstacked/shared"
 import type { JwtPayloadType } from "./schema"
 
 export class AuthGuard {

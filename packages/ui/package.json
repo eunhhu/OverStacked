@@ -1,0 +1,16 @@
+{
+  "name": "@overstacked/ui",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./components/react": "./components/react.ts",
+    "./components/svelte": "./components/svelte.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.37"
+  }
+}

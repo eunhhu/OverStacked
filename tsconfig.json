@@ -13,6 +13,9 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
+    // JSX
+    "jsx": "react-jsx",
+
     // Best practices
     "strict": true,
     "skipLibCheck": true,

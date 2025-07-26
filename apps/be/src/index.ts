@@ -42,7 +42,7 @@ const app = new Elysia()
   // Routes
   .get("/", ({redirect}) => redirect("/health"))
   .get("/health", () => "OK")
-  .group("/auth", (app) => authRoutes(app as any, { prisma }))
+  .use(authRoutes({ prisma, prefix: "/auth" }))
   // Error handling
   .onError(({ error, set }) => {
     console.error(error);

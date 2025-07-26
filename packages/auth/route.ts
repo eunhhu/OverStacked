@@ -7,10 +7,13 @@ import { authPlugin } from "./plugin";
 import { PrismaClient } from "@prisma/client";
 
 interface AuthRoutesOptions {
+    prefix?: string
     prisma: PrismaClient
 }
 
-export const authRoutes = (app: Elysia, options: AuthRoutesOptions) => app
+export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
+    prefix: options.prefix
+})
     .use(authPlugin)
 
     .post("/login", async ({ body, accessJwt, refreshJwt, cookie }) => {
@@ -67,6 +70,39 @@ export const authRoutes = (app: Elysia, options: AuthRoutesOptions) => app
             }),
             accessToken: Type.String(),
             refreshToken: Type.String()
+        }))
+    })
+
+    .post("/register", async ({ body }) => {
+        const { email, password, name } = body;
+
+        const existingUser = await options.prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            return Api.error(409, "USER_ALREADY_EXISTS");
+        }
+        
+        const user = await options.prisma.user.create({ 
+            data: { 
+                email, 
+                password,
+                name
+            } 
+        });
+        
+        return Api.success(user);
+    }, {
+        body: Type.Object({
+            email: Type.String({ format: "email" }),
+            password: Type.String({ minLength: 6 }),
+            name: Type.String()
+        }),
+        response: ApiResponse(Type.Object({
+            user: Type.Object({
+                id: Type.String(),
+                email: Type.String(),
+                name: Type.String(),
+                roles: Type.Array(Type.String())
+            })
         }))
     })
 
