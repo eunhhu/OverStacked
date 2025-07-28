@@ -3,16 +3,16 @@ import { FontWeight } from "../util/fontWeight";
 
 export const basicDark: ThemeType = {
   colors: {
-    primary: "#F7647C",
+    primary: "#F6516C",
     onPrimary: "#FFFFFF",
-    primaryContainer: "#FBEEF0",
-    background: "#FAFAFA",
-    onBackground: "#1A1B1E",
-    surface: "#FFFFFF",
-    onSurface: "#B1B4B9",
-    onSurfaceVariant: "#80858E",
-    outline: "#E1E2E5",
-    tint: "#F1F1F3",
+    primaryContainer: "#462B2F",
+    background: "#26282B",
+    onBackground: "#FFFFFF",
+    surface: "#2E2F33",
+    onSurface: "#6C707A",
+    onSurfaceVariant: "#9B9FA6",
+    outline: "#3E4146",
+    tint: "#38393E",
     error: "#FF0000",
   },
   spacing: {

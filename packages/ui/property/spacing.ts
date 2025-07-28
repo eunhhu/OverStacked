@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { processStyles, ruleHandle, type StyleRules } from "./utils";
+import { ruleHandle, type StyleRules } from "./utils";
 import { parseValue } from "./parser";
 
 export const SpacingProps = Type.Object({
@@ -27,11 +27,11 @@ export const SpacingProps = Type.Object({
 
 export type SpacingProps = Static<typeof SpacingProps>;
 
-const spacingRules: StyleRules<SpacingProps> = {
+export const spacingRules: StyleRules<SpacingProps> = {
     // Padding
     p: [ruleHandle("padding", parseValue)],
-    pv: [ruleHandle("padding", v => parseValue(v) + " 0", 2)],
-    ph: [ruleHandle("padding", v => "0 " + parseValue(v), 2)],
+    pv: [ruleHandle("padding-top", v => parseValue(v), 2), ruleHandle("padding-bottom", v => parseValue(v), 2)],
+    ph: [ruleHandle("padding-left", v => parseValue(v), 2), ruleHandle("padding-right", v => parseValue(v), 2)],
     pt: [ruleHandle("padding-top", parseValue)],
     pr: [ruleHandle("padding-right", parseValue)],
     pb: [ruleHandle("padding-bottom", parseValue)],
@@ -39,8 +39,8 @@ const spacingRules: StyleRules<SpacingProps> = {
     
     // Margin
     m: [ruleHandle("margin", parseValue)],
-    mv: [ruleHandle("margin", v => parseValue(v) + " 0", 2)],
-    mh: [ruleHandle("margin", v => "0 " + parseValue(v), 2)],
+    mv: [ruleHandle("margin-top", v => parseValue(v), 2), ruleHandle("margin-bottom", v => parseValue(v), 2)],
+    mh: [ruleHandle("margin-left", v => parseValue(v), 2), ruleHandle("margin-right", v => parseValue(v), 2)],
     mt: [ruleHandle("margin-top", parseValue)],
     mr: [ruleHandle("margin-right", parseValue)],
     mb: [ruleHandle("margin-bottom", parseValue)],
@@ -55,9 +55,3 @@ const spacingRules: StyleRules<SpacingProps> = {
     
     gap: [ruleHandle("gap", parseValue)],
 };
-
-export const SpacingToCSS = (props: SpacingProps): string => 
-    processStyles(props, spacingRules).toCSS();
-
-export const SpacingToStyle = (props: SpacingProps): Record<string, string> => 
-    processStyles(props, spacingRules).toStyle();

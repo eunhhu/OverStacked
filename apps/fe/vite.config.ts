@@ -18,6 +18,13 @@ export default defineConfig({
     cors: true,
     hmr: true
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html'
+      }
+    }
+  },
   resolve: {
     alias: {}
   },

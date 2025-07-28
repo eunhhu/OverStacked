@@ -5,9 +5,10 @@
   interface Props {
     initialTheme?: ThemeType | string;
     themes?: Record<string, ThemeType>;
+    children?: any;
   }
   
-  let { initialTheme, themes }: Props = $props();
+  let { initialTheme, themes, children }: Props = $props();
   
   const themeContext = createThemeContext(initialTheme, themes);
 
@@ -35,4 +36,4 @@
   });
 </script>
 
-<slot />
+{@render children()}

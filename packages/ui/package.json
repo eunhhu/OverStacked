@@ -5,8 +5,9 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "exports": {
-    "./components/*": "./components/*",
-    "./theme/*": "./theme/*"
+    ".": "./index.ts",
+    "./react": "./react.ts",
+    "./svelte": "./svelte.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@overstacked/shared": "workspace:*",
     "@sinclair/typebox": "^0.34.37",
+    "react": "18",
     "svelte": "^5.37.0"
   }
 }

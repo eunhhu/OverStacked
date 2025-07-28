@@ -5,10 +5,11 @@ import { AuthGuard } from "./guard";
 import { JwtPayload, type JwtPayloadType } from "./schema";
 import { authPlugin } from "./plugin";
 import { PrismaClient } from "@prisma/client";
+import { hashPassword, verifyPassword } from "./util";
 
 interface AuthRoutesOptions {
-    prefix?: string
     prisma: PrismaClient
+    prefix?: string
 }
 
 export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
@@ -24,6 +25,11 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
             include: { roles: true }
         });
         if (!user) {
+            return Api.unauthorized("Invalid credentials");
+        }
+
+        const isPasswordValid = await verifyPassword(password, user.password);
+        if (!isPasswordValid) {
             return Api.unauthorized("Invalid credentials");
         }
 
@@ -84,7 +90,7 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
         const user = await options.prisma.user.create({ 
             data: { 
                 email, 
-                password,
+                password: await hashPassword(password),
                 name
             } 
         });
@@ -106,7 +112,7 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
         }))
     })
 
-    .post("/refresh", async ({ refreshPayload, accessJwt, cookie, refreshJwt }) => {
+    .post("/refresh", async ({ refreshPayload, accessJwt, cookie }) => {
         if (!refreshPayload) {
             return Api.unauthorized("Invalid refresh token");
         }

@@ -1,49 +1,77 @@
-export type StyleRules<T> = Record<keyof T, Array<[string, (v: any) => string, number]>>;
+export type Mode = "add" | "replace";
 
-export const ruleHandle = (property: string, transform?: (v: any) => string, priority: number = 1): 
-    [string, (v: any) => string, number] => [
+export type StyleRules<T> = Record<keyof T, Array<[string, (v: any) => string, number, Mode]>>;
+
+export const ruleHandle = (property: string, transform?: (v: any) => string, priority: number = 1, mode: Mode = "add"): 
+    [string, (v: any) => string, number, Mode] => [
     property, 
     transform || ((v: any) => v), 
-    priority
+    priority,
+    mode
 ];
 
 export function processStyles<T extends Record<string, any>>(
     props: T, 
-    rules: StyleRules<T>
-): { toCSS(): string; toStyle(): Record<string, string> } {
+    ...ruleSets: StyleRules<any>[]
+): { 
+    toCSS(additionalStyles?: React.CSSProperties): string;
+    toStyle(additionalStyles?: React.CSSProperties): Record<string, string>
+} {
     const styles = new Map<string, { value: string; priority: number }>();
 
-    (Object.keys(rules) as Array<keyof T>).forEach(propKey => {
-        const value = props[propKey];
-        const ruleArray = rules[propKey];
-        
-        if (value !== undefined && value !== null && value !== "" && ruleArray) {
-            ruleArray.forEach(([property, transform, priority]) => {
-                const cssValue = transform(value);
-                
-                if (cssValue && cssValue !== "") {
-                    const existing = styles.get(property);
+    ruleSets.forEach(rules => {
+        (Object.keys(rules) as Array<keyof T>).forEach(propKey => {
+            const value = props[propKey];
+            const ruleArray = rules[propKey];
+            
+            if (value !== undefined && value !== null && value !== "" && ruleArray) {
+                ruleArray.forEach(([property, transform, priority, mode]) => {
+                    const cssValue = transform(value);
                     
-                    if (!existing || priority >= existing.priority) {
-                        styles.set(property, { 
-                            value: cssValue, 
-                            priority 
-                        });
+                    if (cssValue && cssValue !== "") {
+                        const existing = styles.get(property);
+                        
+                        if (!existing || priority >= existing.priority || mode === "replace") {
+                            styles.set(property, { 
+                                value: cssValue, 
+                                priority 
+                            });
+                        } else if (mode === "add") {
+                            styles.set(property, { 
+                                value: existing.value ? existing.value + " " + cssValue : cssValue, 
+                                priority 
+                            });
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+        });
     });
 
     return {
-        toCSS: () => Array.from(styles.entries())
-            .map(([prop, { value }]) => `${prop}: ${value}`)
-            .join('; '),
+        toCSS: (additionalStyles: React.CSSProperties = {}) => {
+            const styleEntries = Array.from(styles.entries()).map(([prop, styleValue]) => [prop, styleValue?.value]);
+            return [
+                ...Object.entries(additionalStyles),
+                ...Object.entries(Object.fromEntries(styleEntries)),
+            ]
+            .filter(([_, value]) => value != null)
+            .map(([prop, value]) => `${camelToSnake(prop)}: ${value}`)
+            .join('; ') + ";";
+        },
         
-        toStyle: () => {
+        toStyle: (additionalStyles: React.CSSProperties = {}) => {
             const result: Record<string, string> = {};
-            styles.forEach(({ value }, prop) => result[prop] = value);
-            return result;
+            styles.forEach(({ value }, prop) => result[snakeToCamel(prop)] = value);
+            return { ...additionalStyles as Record<string, string>, ...result };
         }
     };
+}
+
+export function snakeToCamel(str: string): string {
+    return str.replace(/-([a-z])/g, (g) => g[1] ? g[1].toUpperCase() : "");
+}
+
+export function camelToSnake(str: string): string {
+    return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }

@@ -1,6 +1,7 @@
 import Elysia from "elysia";
 import { swagger } from "@elysiajs/swagger";
 import cors from "@elysiajs/cors";
+import { staticPlugin } from "@elysiajs/static";
 import { PrismaClient } from "@prisma/client";
 import cookie from "@elysiajs/cookie";
 import { authPlugin, authRoutes } from "@overstacked/auth";
@@ -22,30 +23,20 @@ const app = new Elysia()
     origin: process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000", `http://localhost:${PORT}`],
     credentials: true,
   }))
-  .use(swagger({
-    path: "/swagger",
-    documentation: {
-      info: {
-        title: "OverStacked Documentation",
-        version: "1.0.0",
-      },
-      servers: [
-        {
-          url: `http://localhost:${PORT}`,
-          description: "Local development server",
-        },
-      ],
-    },
-  }))
   .use(cookie())
-  .use(authPlugin)
+  .use(swagger())
+  .use(staticPlugin({
+    assets: "public",
+    prefix: "",
+  }))
+  .use(authPlugin())
   // Routes
   .get("/", ({redirect}) => redirect("/health"))
   .get("/health", () => "OK")
-  .use(authRoutes({ prisma, prefix: "/auth" }))
+  .use(authRoutes({ prisma, prefix: "auth" }))
   // Error handling
   .onError(({ error, set }) => {
-    console.error(error);
+    // console.error(error);
     set.status = 500;
     return Api.internalServerError(error);
   })

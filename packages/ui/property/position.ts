@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { processStyles, type StyleRules, ruleHandle } from "./utils";
+import { type StyleRules, ruleHandle } from "./utils";
 import { parseValue } from "./parser";
 
 export const PositionProps = Type.Object({
@@ -16,7 +16,7 @@ export const PositionProps = Type.Object({
 
 export type PositionProps = Static<typeof PositionProps>;
 
-const positionRules: StyleRules<PositionProps> = {
+export const positionRules: StyleRules<PositionProps> = {
     absolute: [ruleHandle("position", v => v ? "absolute" : "")],
     relative: [ruleHandle("position", v => v ? "relative" : "")],
     fixed: [ruleHandle("position", v => v ? "fixed" : "")],
@@ -27,9 +27,3 @@ const positionRules: StyleRules<PositionProps> = {
     left: [ruleHandle("left", parseValue)],
     zIndex: [ruleHandle("z-index", parseValue)],
 };
-
-export const PositionToCSS = (props: PositionProps): string => 
-    processStyles(props, positionRules).toCSS();
-
-export const PositionToStyle = (props: PositionProps): Record<string, string> => 
-    processStyles(props, positionRules).toStyle();

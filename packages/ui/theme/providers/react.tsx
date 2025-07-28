@@ -46,4 +46,4 @@ export function ThemeProvider({ children, initialTheme, themes }: ThemeProviderP
 }
 
 // Export with consistent naming for React
-export { ThemeProvider as ReactThemeProvider };
+export default ThemeProvider;

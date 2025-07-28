@@ -11,9 +11,10 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@overstacked/shared": "workspace:*",
     "@elysiajs/jwt": "^1.3.2",
+    "@overstacked/shared": "workspace:*",
     "@prisma/client": "^6.12.0",
+    "argon2": "^0.43.1",
     "elysia": "^1.3.5"
   }
 }

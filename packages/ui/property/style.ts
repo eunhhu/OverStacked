@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { processStyles, type StyleRules, ruleHandle } from "./utils";
+import { type StyleRules, ruleHandle } from "./utils";
 import { parseValue } from "./parser";
 
 export const StyleProps = Type.Object({
@@ -12,7 +12,7 @@ export const StyleProps = Type.Object({
 
 export type StyleProps = Static<typeof StyleProps>;
 
-const styleRules: StyleRules<StyleProps> = {
+export const styleRules: StyleRules<StyleProps> = {
     font: [
         ruleHandle("font-family", v => parseValue(`${v}-fontFamily`)),
         ruleHandle("font-size", v => parseValue(`${v}-fontSize`)),
@@ -25,9 +25,3 @@ const styleRules: StyleRules<StyleProps> = {
     borderColor: [ruleHandle("border-color", parseValue), ruleHandle("border-style", v => v ? "solid" : "", 2), ruleHandle("border-width", v => v ? "1px" : "", 2)],
     borderWidth: [ruleHandle("border-width", parseValue, 1), ruleHandle("border-style", v => v ? "solid" : "", 2), ruleHandle("border-color", v => v ? "#000" : "", 2)],
 };
-
-export const StyleToCSS = (props: StyleProps): string => 
-    processStyles(props, styleRules).toCSS();
-
-export const StyleToStyle = (props: StyleProps): Record<string, string> => 
-    processStyles(props, styleRules).toStyle();

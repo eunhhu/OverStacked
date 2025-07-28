@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { processStyles, ruleHandle, type StyleRules } from "./utils";
+import { ruleHandle, type StyleRules } from "./utils";
 import { parseValue } from "./parser";
 
 export const SizeProps = Type.Object({
@@ -13,7 +13,7 @@ export const SizeProps = Type.Object({
 
 export type SizeProps = Static<typeof SizeProps>;
 
-const sizeRules: StyleRules<SizeProps> = {
+export const sizeRules: StyleRules<SizeProps> = {
     w: [ruleHandle("width", parseValue)],
     minw: [ruleHandle("min-width")],
     maxw: [ruleHandle("max-width")],
@@ -21,9 +21,3 @@ const sizeRules: StyleRules<SizeProps> = {
     minh: [ruleHandle("min-height")],
     maxh: [ruleHandle("max-height")],
 };
-
-export const SizeToCSS = (props: SizeProps): string => 
-    processStyles(props, sizeRules).toCSS();
-
-export const SizeToStyle = (props: SizeProps): Record<string, string> => 
-    processStyles(props, sizeRules).toStyle();

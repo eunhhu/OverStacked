@@ -5,42 +5,45 @@ import {
     type SpacingProps, 
     type PositionProps, 
     type TransformProps,
+    type LayoutProps,
     processStyles, 
     styleRules,
     sizeRules, 
     spacingRules, 
     positionRules,
-    transformRules
+    transformRules,
+    layoutRules
 } from "@overstacked/ui/property";
-import { ButtonProps, buttonRules, defaultButtonStyle } from "./schema";
+import { HStackProps, hStackRules, defaultHStackStyle } from "./schema";
 import { useMemo } from "react";
 
-const Button = (
+const HStack = (
     { children, ...props }:
-    ButtonProps &
+    HStackProps &
     BaseProps &
     StyleProps &
     SizeProps &
     SpacingProps &
     PositionProps &
-    TransformProps
+    TransformProps &
+    Omit<LayoutProps, "row" | "col">
 ) => {
     const style = useMemo(() => processStyles(
         props,
-        buttonRules,
+        hStackRules,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules
+        transformRules,
+        layoutRules
     ), [props]);
-    return <button
-        aria-label="Button"
-        onClick={props.onClick}
-        style={style.toStyle(defaultButtonStyle)}
+    return <div
+        aria-label="HStack"
+        style={style.toStyle(defaultHStackStyle)}
     >
         {children}
-    </button>
+    </div>
 }
 
-export default Button;
+export default HStack;
