@@ -35,6 +35,7 @@
       "name": "@overstacked/app-fe",
       "version": "0.0.0",
       "devDependencies": {
+        "@overstacked/ui": "workspace:*",
         "@sveltejs/vite-plugin-svelte": "^6.0.0",
         "@tsconfig/svelte": "^5.0.4",
         "svelte": "^5.35.5",
@@ -75,6 +76,19 @@
       "version": "1.0.0",
       "dependencies": {
         "@sinclair/typebox": "^0.34.37",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^5",
+      },
+    },
+    "packages/ui": {
+      "name": "@overstacked/ui",
+      "version": "1.0.0",
+      "dependencies": {
+        "@overstacked/shared": "workspace:*",
+        "@sinclair/typebox": "^0.34.37",
+        "svelte": "^5.37.0",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -162,6 +176,8 @@
     "@overstacked/example": ["@overstacked/example@workspace:packages/example"],
 
     "@overstacked/shared": ["@overstacked/shared@workspace:packages/shared"],
+
+    "@overstacked/ui": ["@overstacked/ui@workspace:packages/ui"],
 
     "@prisma/client": ["@prisma/client@6.12.0", "", { "peerDependencies": { "prisma": "*", "typescript": ">=5.1.0" }, "optionalPeers": ["prisma", "typescript"] }, "sha512-wn98bJ3Cj6edlF4jjpgXwbnQIo/fQLqqQHPk2POrZPxTlhY3+n90SSIF3LMRVa8VzRFC/Gec3YKJRxRu+AIGVA=="],
 
@@ -380,6 +396,8 @@
     "zod": ["zod@3.25.76", "", {}, "sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ=="],
 
     "@elysiajs/cookie/cookie": ["cookie@0.5.0", "", {}, "sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw=="],
+
+    "@overstacked/ui/svelte": ["svelte@5.37.0", "", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@jridgewell/sourcemap-codec": "^1.5.0", "@sveltejs/acorn-typescript": "^1.0.5", "@types/estree": "^1.0.5", "acorn": "^8.12.1", "aria-query": "^5.3.1", "axobject-query": "^4.1.0", "clsx": "^2.1.1", "esm-env": "^1.2.1", "esrap": "^2.1.0", "is-reference": "^3.0.3", "locate-character": "^3.0.0", "magic-string": "^0.30.11", "zimmerframe": "^1.1.2" } }, "sha512-BAHgWdKncZ4F1DVBrkKAvelx2Nv3mR032ca8/yj9Gxf5s9zzK1uGXiZTjCFDvmO2e9KQfcR2lEkVjw+ZxExJow=="],
 
     "@scalar/themes/@scalar/types": ["@scalar/types@0.1.7", "", { "dependencies": { "@scalar/openapi-types": "0.2.0", "@unhead/schema": "^1.11.11", "nanoid": "^5.1.5", "type-fest": "^4.20.0", "zod": "^3.23.8" } }, "sha512-irIDYzTQG2KLvFbuTI8k2Pz/R4JR+zUUSykVTbEMatkzMmVFnn1VzNSMlODbadycwZunbnL2tA27AXed9URVjw=="],
 

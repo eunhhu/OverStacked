@@ -2,15 +2,19 @@
   "name": "@overstacked/ui",
   "version": "1.0.0",
   "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "exports": {
-    "./components/react": "./components/react.ts",
-    "./components/svelte": "./components/svelte.ts"
+    "./components/*": "./components/*",
+    "./theme/*": "./theme/*"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "typescript": "^5"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.34.37"
+    "@overstacked/shared": "workspace:*",
+    "@sinclair/typebox": "^0.34.37",
+    "svelte": "^5.37.0"
   }
 }
