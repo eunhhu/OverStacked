@@ -11,13 +11,13 @@ import {
     spacingRules, 
     positionRules,
     transformRules
-} from "@overstacked/ui/property";
-import { ButtonProps, buttonRules, defaultButtonStyle } from "./schema";
+} from "../../../../property";
+import { defaultTextStyle, TextProps, textRules } from "./schema";
 import { useMemo } from "react";
 
-const Button = (
+const Text = (
     { children, ...props }:
-    ButtonProps &
+    TextProps &
     BaseProps &
     StyleProps &
     SizeProps &
@@ -27,20 +27,19 @@ const Button = (
 ) => {
     const style = useMemo(() => processStyles(
         props,
-        buttonRules,
+        textRules,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
         transformRules
     ), [props]);
-    return <button
-        aria-label="Button"
-        onClick={props.onClick}
-        style={style.toStyle(defaultButtonStyle)}
+    return <span
+        aria-label="Text"
+        style={style.toStyle(defaultTextStyle)}
     >
         {children}
-    </button>
+    </span>
 }
 
-export default Button;
+export default Text;

@@ -29,29 +29,29 @@ export type SpacingProps = Static<typeof SpacingProps>;
 
 export const spacingRules: StyleRules<SpacingProps> = {
     // Padding
-    p: [ruleHandle("padding", parseValue)],
+    p: [ruleHandle("padding", v => parseValue(v))],
     pv: [ruleHandle("padding-top", v => parseValue(v), 2), ruleHandle("padding-bottom", v => parseValue(v), 2)],
     ph: [ruleHandle("padding-left", v => parseValue(v), 2), ruleHandle("padding-right", v => parseValue(v), 2)],
-    pt: [ruleHandle("padding-top", parseValue)],
-    pr: [ruleHandle("padding-right", parseValue)],
-    pb: [ruleHandle("padding-bottom", parseValue)],
-    pl: [ruleHandle("padding-left", parseValue)],
+    pt: [ruleHandle("padding-top", v => parseValue(v))],
+    pr: [ruleHandle("padding-right", v => parseValue(v))],
+    pb: [ruleHandle("padding-bottom", v => parseValue(v))],
+    pl: [ruleHandle("padding-left", v => parseValue(v))],
     
     // Margin
-    m: [ruleHandle("margin", parseValue)],
+    m: [ruleHandle("margin", v => parseValue(v))],
     mv: [ruleHandle("margin-top", v => parseValue(v), 2), ruleHandle("margin-bottom", v => parseValue(v), 2)],
     mh: [ruleHandle("margin-left", v => parseValue(v), 2), ruleHandle("margin-right", v => parseValue(v), 2)],
-    mt: [ruleHandle("margin-top", parseValue)],
-    mr: [ruleHandle("margin-right", parseValue)],
-    mb: [ruleHandle("margin-bottom", parseValue)],
-    ml: [ruleHandle("margin-left", parseValue)],
+    mt: [ruleHandle("margin-top", v => parseValue(v))],
+    mr: [ruleHandle("margin-right", v => parseValue(v))],
+    mb: [ruleHandle("margin-bottom", v => parseValue(v))],
+    ml: [ruleHandle("margin-left", v => parseValue(v))],
     
     // Border radius
-    r: [ruleHandle("border-radius", parseValue)],
+    r: [ruleHandle("border-radius", v => parseValue(v))],
     rt: [ruleHandle("border-radius", v => `${parseValue(v)} ${parseValue(v)} 0 0`)],
     rr: [ruleHandle("border-radius", v => `0 ${parseValue(v)} ${parseValue(v)} 0`)],
     rb: [ruleHandle("border-radius", v => `0 0 ${parseValue(v)} ${parseValue(v)}`)],
     rl: [ruleHandle("border-radius", v => `${parseValue(v)} 0 0 ${parseValue(v)}`)],
     
-    gap: [ruleHandle("gap", parseValue)],
+    gap: [ruleHandle("gap", v => parseValue(v))],
 };

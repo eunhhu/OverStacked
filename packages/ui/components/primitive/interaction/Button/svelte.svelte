@@ -6,47 +6,45 @@
         type SpacingProps,
         type PositionProps,
         type TransformProps,
-        type LayoutProps,
         processStyles,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules,
-        layoutRules
-    } from "../../../property";
-    import { VStackProps, vStackRules, defaultVStackStyle } from "./schema";
+        transformRules
+    } from "../../../../property";
+    import { ButtonProps, buttonRules, defaultButtonStyle } from "./schema";
 
     let { children, ...props }:
-        VStackProps &
+        ButtonProps &
         BaseProps &
         StyleProps &
         SizeProps &
         SpacingProps &
         PositionProps &
-        TransformProps &
-        Omit<LayoutProps, "row" | "col">
+        TransformProps
     = $props();
 
     let style = $derived(processStyles(
         props,
-        vStackRules,
+        buttonRules,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules,
-        layoutRules
+        transformRules
     ));
 </script>
 
-<div
-    aria-label="VStack"
-    style={style.toCSS(defaultVStackStyle)}
+<button
+    aria-label="Button"
+    onclick={props.onClick}
+    style={style.toCSS(defaultButtonStyle)}
+    disabled={props.disabled}
 >
     {#if typeof children === "function"}
         {@render children()}
     {:else if children}
         {children}
     {/if}
-</div>
+</button>

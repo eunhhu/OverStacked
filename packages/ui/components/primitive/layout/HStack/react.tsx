@@ -13,13 +13,13 @@ import {
     positionRules,
     transformRules,
     layoutRules
-} from "@overstacked/ui/property";
-import { VStackProps, vStackRules, defaultVStackStyle } from "./schema";
+} from "../../../../property";
+import { HStackProps, hStackRules, defaultHStackStyle } from "./schema";
 import { useMemo } from "react";
 
-const VStack = (
+const HStack = (
     { children, ...props }:
-    VStackProps &
+    HStackProps &
     BaseProps &
     StyleProps &
     SizeProps &
@@ -30,7 +30,7 @@ const VStack = (
 ) => {
     const style = useMemo(() => processStyles(
         props,
-        vStackRules,
+        hStackRules,
         styleRules,
         sizeRules,
         spacingRules,
@@ -39,11 +39,11 @@ const VStack = (
         layoutRules
     ), [props]);
     return <div
-        aria-label="VStack"
-        style={style.toStyle(defaultVStackStyle)}
+        aria-label="HStack"
+        style={style.toStyle(defaultHStackStyle)}
     >
         {children}
     </div>
 }
 
-export default VStack;
+export default HStack;

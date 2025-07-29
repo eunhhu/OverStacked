@@ -12,7 +12,7 @@
         spacingRules,
         positionRules,
         transformRules
-    } from "../../../property";
+    } from "../../../../property";
     import { ButtonProps, buttonRules, defaultButtonStyle } from "./schema";
 
     let { children, ...props }:
@@ -36,9 +36,11 @@
     ));
 </script>
 
-<button aria-label="Button"
+<button
+    aria-label="Button"
     onclick={props.onClick}
     style={style.toCSS(defaultButtonStyle)}
+    disabled={props.disabled}
 >
     {#if typeof children === "function"}
         {@render children()}

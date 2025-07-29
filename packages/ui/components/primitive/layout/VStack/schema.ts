@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { type StyleRules } from "../../../property";
+import { type StyleRules } from "../../../../property";
 
 export const VStackProps = Type.Object({})
 

@@ -1,11 +1,11 @@
 export type Mode = "add" | "replace";
 
-export type StyleRules<T> = Record<keyof T, Array<[string, (v: any) => string, number, Mode]>>;
+export type StyleRules<T> = Record<keyof T, Array<[string, (v: any, global: Record<keyof T, any>) => string, number, Mode]>>;
 
-export const ruleHandle = (property: string, transform?: (v: any) => string, priority: number = 1, mode: Mode = "add"): 
-    [string, (v: any) => string, number, Mode] => [
+export const ruleHandle = (property: string, transform?: (v: any, global: Record<string, string>) => string, priority: number = 1, mode: Mode = "add"): 
+    [string, (v: any, global: Record<string, string>) => string, number, Mode] => [
     property, 
-    transform || ((v: any) => v), 
+    transform || ((v: any, global: Record<string, string>) => v), 
     priority,
     mode
 ];
@@ -26,7 +26,7 @@ export function processStyles<T extends Record<string, any>>(
             
             if (value !== undefined && value !== null && value !== "" && ruleArray) {
                 ruleArray.forEach(([property, transform, priority, mode]) => {
-                    const cssValue = transform(value);
+                    const cssValue = transform(value, Object.fromEntries(Object.entries(props)));
                     
                     if (cssValue && cssValue !== "") {
                         const existing = styles.get(property);

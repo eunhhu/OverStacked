@@ -5,45 +5,44 @@ import {
     type SpacingProps, 
     type PositionProps, 
     type TransformProps,
-    type LayoutProps,
     processStyles, 
     styleRules,
     sizeRules, 
     spacingRules, 
     positionRules,
-    transformRules,
-    layoutRules
-} from "@overstacked/ui/property";
-import { HStackProps, hStackRules, defaultHStackStyle } from "./schema";
+    transformRules
+} from "../../../../property";
+import { InputProps, inputRules, defaultInputStyle } from "./schema";
 import { useMemo } from "react";
 
-const HStack = (
-    { children, ...props }:
-    HStackProps &
+const Input = (
+    { ...props }:
+    InputProps &
     BaseProps &
     StyleProps &
     SizeProps &
     SpacingProps &
     PositionProps &
-    TransformProps &
-    Omit<LayoutProps, "row" | "col">
+    TransformProps
 ) => {
     const style = useMemo(() => processStyles(
         props,
-        hStackRules,
+        inputRules,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules,
-        layoutRules
+        transformRules
     ), [props]);
-    return <div
-        aria-label="HStack"
-        style={style.toStyle(defaultHStackStyle)}
-    >
-        {children}
-    </div>
+    return <input
+        aria-label="Input"
+        type={props.type}
+        style={style.toStyle(defaultInputStyle)}
+        disabled={props.disabled}
+        value={props.value}
+        placeholder={props.placeholder}
+        onChange={props.onChange}
+    />
 }
 
-export default HStack;
+export default Input;

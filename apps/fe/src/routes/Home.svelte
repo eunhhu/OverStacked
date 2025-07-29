@@ -1,18 +1,36 @@
 <script lang="ts">
-    import { VStack } from "@overstacked/ui/svelte";
-    import { treaty } from "@elysiajs/eden";
-
-    const client = treaty("localhost:8000")
+    import { Button, VStack, Input, Text, TextArea, HStack, Checkbox } from "@overstacked/ui/svelte";
+    import { api } from "../lib/api";
+    import { onMount } from "svelte";
+    
+    onMount(() => {
+        api.get().then(res => console.log(res))
+    })
 </script>
 
-<VStack gap="lg" ph="lg" m="xl" r="lg" bgColor="surface" borderColor="outline">
-    <h1>Hello World</h1>
-    <h2>Hello World</h2>
-    <h3>Hello World</h3>
-    <h4>Hello World</h4>
-    <h5>Hello World</h5>
-    <h6>Hello World</h6>
-</VStack>
+<HStack p="xl" w="full" h="full">
+    <VStack gap="lg" ph="lg" p="lg"r="lg" borderColor="outline" scrollable>
+        <Text font="displayLarge">Hello World</Text>
+        <Text font="displayMedium">Hello World</Text>
+        <Text font="displaySmall">Hello World</Text>
+        <Text font="headlineLarge">Hello World</Text>
+        <Text font="headlineMedium">Hello World</Text>
+        <Text font="headlineSmall">Hello World</Text>
+        <Text font="titleLarge">Hello World</Text>
+        <Text font="titleMedium">Hello World</Text>
+        <Text font="titleSmall">Hello World</Text>
+        <Text font="bodyLarge">Hello World</Text>
+        <Text font="bodyMedium">Hello World</Text>
+        <Text font="bodySmall">Hello World</Text>
+        <Button variant="primary" p="md" r="md">Button</Button>
+        <Button variant="secondary" p="md" r="md">Button</Button>
+        <Button variant="outline" p="md" r="md">Button</Button>
+        <Input placeholder="Search..." variant="fill" p="md" r="md"/>
+        <Input placeholder="Search..." variant="outline" p="md" r="md"/>
+        <Checkbox outlineColor="outline" fillColor="primary" r="sm"/>
+        <TextArea placeholder="Search..." variant="outline" p="md" r="md" cols={50} rows={10}/>
+    </VStack>
+</HStack>
 
 <style>
 </style>

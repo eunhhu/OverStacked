@@ -6,47 +6,43 @@
         type SpacingProps,
         type PositionProps,
         type TransformProps,
-        type LayoutProps,
         processStyles,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules,
-        layoutRules
-    } from "../../../property";
-    import { HStackProps, hStackRules, defaultHStackStyle } from "./schema";
+        transformRules
+    } from "../../../../property";
+    import { defaultTextStyle, TextProps, textRules } from "./schema";
 
     let { children, ...props }:
-        HStackProps &
+        TextProps &
         BaseProps &
         StyleProps &
         SizeProps &
         SpacingProps &
         PositionProps &
-        TransformProps &
-        Omit<LayoutProps, "row" | "col">
+        TransformProps
     = $props();
 
     let style = $derived(processStyles(
         props,
-        hStackRules,
+        textRules,
         styleRules,
         sizeRules,
         spacingRules,
         positionRules,
-        transformRules,
-        layoutRules
+        transformRules
     ));
 </script>
 
-<div
-    aria-label="HStack"
-    style={style.toCSS(defaultHStackStyle)}
+<span
+    aria-label="Text"
+    style={style.toCSS(defaultTextStyle)}
 >
     {#if typeof children === "function"}
         {@render children()}
     {:else if children}
         {children}
     {/if}
-</div>
+</span>
