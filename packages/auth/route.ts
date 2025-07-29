@@ -17,7 +17,7 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
 })
     .use(authPlugin)
 
-    .post("/login", async ({ body, accessJwt, refreshJwt, cookie }) => {
+    .post("/login", async ({ body, accessJwt, refreshJwt, cookie, set }) => {
         const { email, password } = body;
         
         const user = await options.prisma.user.findUnique({ 
@@ -25,11 +25,13 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
             include: { roles: true }
         });
         if (!user) {
-            return Api.unauthorized("Invalid credentials");
+            set.status = 404;
+            return Api.notFound("User not found");
         }
 
         const isPasswordValid = await verifyPassword(password, user.password);
         if (!isPasswordValid) {
+            set.status = 401;
             return Api.unauthorized("Invalid credentials");
         }
 
@@ -79,12 +81,13 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
         }))
     })
 
-    .post("/register", async ({ body }) => {
+    .post("/register", async ({ body, set }) => {
         const { email, password, name } = body;
 
         const existingUser = await options.prisma.user.findUnique({ where: { email } });
         if (existingUser) {
-            return Api.error(409, "USER_ALREADY_EXISTS");
+            set.status = 409;
+            return Api.conflict("User already exists");
         }
         
         const user = await options.prisma.user.create({ 
@@ -95,6 +98,7 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
             } 
         });
         
+        set.status = 201;
         return Api.success(user);
     }, {
         body: Type.Object({
@@ -112,8 +116,9 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
         }))
     })
 
-    .post("/refresh", async ({ refreshPayload, accessJwt, cookie }) => {
+    .post("/refresh", async ({ refreshPayload, accessJwt, cookie, set }) => {
         if (!refreshPayload) {
+            set.status = 401;
             return Api.unauthorized("Invalid refresh token");
         }
 
@@ -122,6 +127,7 @@ export const authRoutes = (options: AuthRoutesOptions) => new Elysia({
             include: { roles: true }
         });
         if (!user) {
+            set.status = 401;
             return Api.unauthorized("Invalid refresh token");
         }
 
